@@ -35,14 +35,16 @@ const [mensaje, guardarMensaje] = useState(null)
       password: "",
     },
     validationSchema: Yup.object({
-      nombre: Yup.string().required("el Nombre es Obligatorio"),
-      apellido: Yup.string().required("El Apellido es Obligatorio"),
+      nombre: Yup.string()
+                 .required("el Nombre es Obligatorio"),
+      apellido: Yup.string()
+                   .required("El Apellido es Obligatorio"),
       email: Yup.string()
-        .email("El Email no es valido")
-        .required("El Email es obligatorio"),
+                .email("El Email no es Valido")
+                .required("El Email es Obligatorio"),
       password: Yup.string()
-        .required("El password no puede estar vacio")
-        .min(6, " El password debe ser de al menos 6 caracteres"),
+                   .required("El password no puede estar vacio")
+                   .min(6, " El password debe ser de al menos 6 caracteres"),
     }),
     onSubmit: async (valores) => {
       // console.log("enviando");
@@ -142,7 +144,7 @@ return (
                   onChange={formik.handleChange}
                 />
               </div>
-              {formik.touched.nombre && formik.errors.apellido ? (
+              {formik.touched.apellido && formik.errors.apellido ? (
                 <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
                   <p className="font-bold">Error</p>
                   <p>{formik.errors.apellido}</p>
@@ -166,7 +168,7 @@ return (
                   onChange={formik.handleChange}
                 />
               </div>
-              {formik.touched.nombre && formik.errors.email ? (
+              {formik.touched.email && formik.errors.email ? (
                 <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
                   <p className="font-bold">Error</p>
                   <p>{formik.errors.email}</p>
@@ -189,7 +191,7 @@ return (
                   onChange={formik.handleChange}
                 />
               </div>
-              {formik.touched.nombre && formik.errors.password ? (
+              {formik.touched.password && formik.errors.password ? (
                 <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
                   <p className="font-bold">Error</p>
                   <p>{formik.errors.password}</p>
