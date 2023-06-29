@@ -1,3 +1,4 @@
+import Cliente from "@/components/Cliente";
 import Layout from "@/components/Layout";
 import { gql, useQuery } from "@apollo/client";
 import Link from "next/link";
@@ -36,7 +37,7 @@ if (!data.obtenerClientesVendedor) {
       <Layout>
         <h1 className="text-2xl text-gray-800 font-light">Clientes</h1>
 
-        <Link href='/nuevocliente' >
+        <Link href='/nuevocliente' className="bg-blue-700 py-2 px-5 mt-5 inline-block text-white rounded text-sm hover:bg-gray-800 mb-3 uppercase font-bold " >
         Nuevo Cliente
           
         </Link>
@@ -49,18 +50,18 @@ if (!data.obtenerClientesVendedor) {
           <th className="w-1/5 py-2">Nombre</th>
           <th className="w-1/5 py-2">Empresa</th>
           <th className="w-1/5 py-2">Email</th>
+          <th className="w-1/5 py-2">Eliminar</th>
+
        
         </tr>
         </thead>
 
         <tbody className="bg-white">
         {data.obtenerClientesVendedor.map(cliente =>(
-          <tr key={cliente.id} >
-            <td className="border px-4 py-2 " >{cliente.nombre} {cliente.apellido}</td>
-            <td className="border px-4 py-2 " >{cliente.empresa} </td>
-            <td className="border px-4 py-2 " >{cliente.email}</td>
-
-          </tr>
+        <Cliente
+        key={cliente.id}
+        cliente={cliente}
+         />
         ) )}
 
         </tbody>
