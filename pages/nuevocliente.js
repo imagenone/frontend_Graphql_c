@@ -19,6 +19,18 @@ mutation nuevoCliente($input: ClienteInput) {
 }
 `;
 
+const OBTENER_CLIENTE_USUARIO = gql`
+  query obtenerClientesVendedor {
+    obtenerClientesVendedor{
+      id
+      nombre
+      apellido
+      empresa
+      email
+    }
+  }
+`;
+
 
 const Nuevocliente = () => {
 // router
@@ -28,7 +40,19 @@ const [mensaje, guardarMensaje]= useState(null)
 
 // Mutation Para Crear Nuevos Clientes
 
-const [nuevoCliente] = useMutation( NUEVO_CLIENTE)
+const [ nuevoCliente ] = useMutation(NUEVO_CLIENTE, {
+  update:(cache, {data: {nuevoCliente} } ) => {
+    //obtener el objeto del cache quedesamos actualizar
+    const { obtenerClientesVendedor } = cache.readQuery({query:OBTENER_CLIENTE_USUARIO})
+    // Reescribimos el cache (el cache no se debe modificar)
+    cache.writeQuery({
+      query: OBTENER_CLIENTE_USUARIO,
+      data: {
+        obtenerClientesVendedor : [...obtenerClientesVendedor, nuevoCliente]
+      }
+    })
+  }
+})
 
   const formik = useFormik({
     initialValues: {
@@ -61,10 +85,10 @@ const [nuevoCliente] = useMutation( NUEVO_CLIENTE)
                 }
             }
         });
-        console.log("data.nuevoCliente:",data.nuevoCliente)
+        // console.log("data.nuevoCliente:",data.nuevoCliente)
         router.push('/') // redirect nuevo cliente
       } catch (error) {
-        guardarMensaje(error.message);
+        guardarMensaje(error.message.replace('GraphQl error',''));
       }
     },
   });
@@ -81,20 +105,21 @@ const [nuevoCliente] = useMutation( NUEVO_CLIENTE)
     <Layout>
      
      {mensaje && mostraMensaje()}
-      <div className="font-sans">
+     
+      <div className="font-sans text-[12px] ">
         <div className="relative min-h-screen flex flex-col sm:justify-center items-center bg-gray-100 ">
           <div className="relative sm:max-w-sm w-full">
             <div className="card bg-blue-400 shadow-lg  w-full h-full rounded-3xl absolute  transform -rotate-6"></div>
             <div className="card bg-red-400 shadow-lg  w-full h-full rounded-3xl absolute  transform rotate-6"></div>
             <div className="relative w-full rounded-3xl  px-6 py-4 bg-gray-100 shadow-md">
-              <h1 className="text-2xl text-gray-800 font-light">
+              <h1 className="text-2xl text-gray-800 font-light text-[12px]">
                 Nuevo cliente
               </h1>
-              <form className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
+              <form className="bg-white  shadow-md px-8 pt-6 pb-8 mb-4"
               onSubmit={formik.handleSubmit}>
                 <div>
                   <label
-                    className="block mt-3 text-sm text-gray-700 text-center font-semibold"
+                    className="block mt-3 text-sm text-gray-700 text-center font-semibold text-[12px]"
                     htmlFor="nombre"
                   >
                     Nombre
@@ -118,7 +143,7 @@ const [nuevoCliente] = useMutation( NUEVO_CLIENTE)
 
                 <div>
                   <label
-                    className="block mt-3 text-sm text-gray-700 text-center font-semibold"
+                    className="block mt-3 text-sm text-gray-700 text-center font-semibold text-[12px]"
                     htmlFor="apellido"
                   >
                     Apellidos
@@ -141,7 +166,7 @@ const [nuevoCliente] = useMutation( NUEVO_CLIENTE)
                 ) : null}
                 <div>
                   <label
-                    className="block mt-3 text-sm text-gray-700 text-center font-semibold"
+                    className="block mt-3 text-sm text-gray-700 text-center font-semibold text-[12px]"
                     htmlFor="empresa"
                   >
                     Empresa
@@ -165,7 +190,7 @@ const [nuevoCliente] = useMutation( NUEVO_CLIENTE)
 
                 <div className="mt-7">
                   <label
-                    className="block mt-3 text-sm text-gray-700 text-center font-semibold"
+                    className="block mt-3 text-sm text-gray-700 text-center font-semibold text-[12px]"
                     htmlFor="email"
                   >
                     Email
@@ -189,7 +214,7 @@ const [nuevoCliente] = useMutation( NUEVO_CLIENTE)
 
                 <div className="mt-7">
                   <label
-                    className="block mt-3 text-sm text-gray-700 text-center font-semibold"
+                    className="block mt-3 text-sm text-gray-700 text-center font-semibold text-[12px]"
                     htmlFor="telefono"
                   >
                     Telefono

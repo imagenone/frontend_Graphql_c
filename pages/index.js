@@ -48,9 +48,12 @@ if (!data.obtenerClientesVendedor) {
         <thead className="bg-gray-800">
         <tr className="text-white">
           <th className="w-1/5 py-2">Nombre</th>
+          <th className="w-1/5 py-2">Apellido</th>
           <th className="w-1/5 py-2">Empresa</th>
           <th className="w-1/5 py-2">Email</th>
           <th className="w-1/5 py-2">Eliminar</th>
+          <th className="w-1/5 py-2">Editar</th>
+
 
        
         </tr>
